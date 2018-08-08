@@ -83,4 +83,25 @@ type指定了这是一个CSS样式表，rel指定了HTML文件和所链接的文
 4. 不同浏览器对边框的关键字thin.medium.thick可能有不同的默认大小
 5. 在CSS中使用id和使用类基本相似，只是把点号（.）换成了井号（#）
 6. **类名要以一个字母开头，但是id则以数字或者字母开头，相同之处在于二者都不能包含空格**
-7. 
+7. 对于混合样式表，他们的顺序非常重要，这些样式表从上往下排列，但是**最下面的样式表最优先**。
+8. 在HTML中使用媒体查询很简单，只需要在link元素中增加一个media属性即可，例如`media="screen and (max-device-width: 480px)"`,这一行代码意味着，只在有屏幕而却屏幕宽度不超过480px的设备上显示
+9. 在CSS中使用媒体查询也很简单，我们需要在CSS中新建一条规则，下面给出一条例子
+    ```CSS
+    @media screen amd (min-device-width: 481px) {
+        #paragarph {margin-right: 250px;}
+    }/*这里首先使用@media规则，在规则后面接上媒体查询条件，首先是带有屏幕其次是最小宽度是481px，对于与前面设备条件screen匹配的设备，将所有条件写在后面的大括号内。*/
+    @media screen and (max-device-width: 480px) {
+        #paragraph {margin-right: 30px;}
+    }
+    @media print {
+        body{
+            font-family:Times,"Times New Roman",serif;
+        }
+    }/*如果要打印这个页面，则会使用这些规则*/
+    p.specials{
+        color: red;
+    }/*其他所有规则会应用于所有界面，因为他们未被包含在@media规则中*/
+    ```
+# 高级Web建设
+## Web与Span
+1.
