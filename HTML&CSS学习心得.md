@@ -226,7 +226,7 @@
 * 对于position属性，它还有fixed和relative两个值。[fixed](#fixed)（固定）定位时将元素放在 **相对于浏览器窗口的一个位置上（而不是相对于页面）**，所以固定元素永远也不会移动，你将会在后面的内容里看到相关的例子。而对于relative（相对）定位，它则会让元素正常地流入页面，不过**在显示在页面上之前，会进行偏移**，这相当于更高级的定位和特殊效果
 * **可以对任何元素都可以使用绝对定位，包括块元素和内联元素。但是切记：一个元素绝对定位时，会把他从正常的流中删除**
 
-### 表格显示布局
+### 表格显示
 * 对于CSS表格，每个单元格会包含一个HTML块元素，表格会自动扩展来适应单元格宽度和高度
 * 创建一个表格的步骤如下
     1. 创建一个\<div>表示整个表格，行和列都会嵌套在这个\<div>中
@@ -365,7 +365,7 @@
 * 对于多个\<header>，**要注意使用id或类来区分**，我相信页面的主页眉和文章的页眉样式是不同的。通过id或类来区分，会使你的CSS样式表写起来更加方便，用起来也更加美观
 
 ### \<nav>
-导航栏的本质是一个无序列表，通过CSS更改样式，让它长得比较像一个导航，下面我们来看两段示例代码，一段是HTML，一段则是CSS
+**导航栏的本质是一个无序列表**，通过CSS更改样式，让它长得比较像一个导航，下面我们来看两段示例代码，一段是HTML，一段则是CSS
 ```HTML
 <nav>
     <ul>
@@ -418,7 +418,7 @@ nav ul li.selected {
     上面这段代码里，包含了很多细节，我们一一来看：
     1. 如果存在controls属性，播放器会提供一些控件，可以控制视频和音频的播放
     2. 如果存在autoplay属性，一旦页面加载，视频就开始播放
-    3. 注意：上面两个属性都是我们在这里新接触的“布尔属性”，没有值，但是如果存在便是真，不存在便是假
+    3. 注意：上面两个属性都是我们在这里新接触的**布尔属性**，没有值，但是如果存在便是真，不存在便是假
     4. 在L3和L4,分别定义了页面中视频的宽度和高度
     5. L6是一个可选属性，如果视频未播放，就会显示这个封面
     6. 另外，还有一些这里没有提到的属性：
@@ -437,8 +437,127 @@ nav ul li.selected {
         <source src="video/video.mp4">
         <source src="video/video.webm">
         <source src="video/video.ogv">
-        <object>...</object>
+        <object data="video/video.swf"></object>
         <p>sorry,your browser doesn't support the video element</p>
     </video>
     ```
-    在这里，注意到我们从\<video>中删除了src属性，然而换成了多个\<source>标记，每个标记有各自的src属性，分别包含不同格式的视频。如果浏览器不支持所有提供的格式，会先使用\<object>，用户会看到播放flash视频，如果也无法使用，就会显示\<p>元素中的文本
+    在这里，注意到我们**从\<video>中删除了src属性，然而换成了多个\<source>标记**，每个标记有各自的src属性，分别包含不同格式的视频。如果浏览器不支持所有提供的格式，会先使用\<object>，用户会看到播放flash视频，如果也无法使用，就会显示\<p>元素中的文本
+
+## 建立表格
+在这一节开始前，我们需要明白，这一节的表格是使用HTML表示它的表格数据，而不是通过CSS建立布局（那属于表现范畴）
+
+### 创建一个表格
+1. 使用HTML创建一个表格，在这里先给出示例代码，然后我们再来一一解释
+    ```HTML{.line-numbers}
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style type-"text/css">
+            td, th {border:1px solid blank;}
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>City</th>
+                <th>Date</th>
+                <th>Temperature</th>
+                <th>Altitude</th>
+                <th>Population</th>
+                <th>Diner Rating</th>
+            </tr>
+            <tr>
+                <td>Walla Walla,WA</td>
+                <td>June 15th</td>
+                <td>75</td>
+                <td>1,204 ft</td>
+                <td>29,686</td>
+                <td>4/5</td>
+            </tr>
+            <tr>
+                <td>Magic City,ID</td>
+                <td>June 25th</td>
+                <td>74</td>
+                <td>5,312 ft</td>
+                <td>50</td>
+                <td>3/5</td>
+            </tr>
+        </table>
+    </body>
+    </html>
+    ```
+    浏览器会显示这样一个表格，见图![table1](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/table1.png)
+    现在，我们来解释这段代码里的相关细节：
+    1. L3-L8的首部里，是一段CSS，正是因为有这段CSS，我们才能在浏览器里看到表格的结构
+    2. \<table>元素包裹整个表格
+    3. \<tr>元素包裹一行，每一行一个\<tr>
+    4. \<th>元素包裹一个表头，看上去好像是HTML里的一列，但是实际上我们在定义一个表头行。**浏览器默认的会使用粗体来显示表头**
+    5. \<td>元素包裹一个单元格，每个单元格分别构成一个单独的列
+2. **如果一行没有足够的元素，会出现什么情况？换句话说，如果实际的元素数鳌鱼表格中的列数，会有什么结果？**
+    >遇到这种情况，最简单的办法是**将单元格的内容留空，即写为\<td>\</td>**。如果省去了这个单元格，表格就不能正确的排列对齐
+3. 如果把表格的表头移动到表格左侧，该怎么办？
+    >把表头元素放在每行的相应位置（一般是第一个）即可
+4. HTML表格和CSS表格显示有什么关系？
+    >HTML表格允许你使用HTML标记指定表格的结构，而CSS表格显示则提供了一种方法，可以用一种类似表格的表现形式显示块元素
+5. 给表格增加一个标题
+    1. 先给出示例代码
+        ```HTML
+        <table>
+            <captioh>
+            The Cities I visited on my Segway'n USA travels
+            </caption>
+            ·
+            ·
+            ·
+        </table>
+        ```
+        标题会在表格上方显示，之后也可以用CSS调整样式，但是一些版本较老的浏览器不能完全支持标题位置的调整
+
+### 为表格增加样式
+1. 为表格增加样式
+    ```CSS{.line-numbers}
+    table{
+        margin-left: 20px;
+        margin-right: 20px;
+        border: thin aolid blank;
+        caption-side: bottom;
+    }
+    td,th {
+        border: thin dotted grat;
+        padding: 5px;
+    }
+    ```
+    1. L4，我们给表格加了一个黑色的细边框
+    2. L5，我们把标题移动到表格下方，做成类似图注的样式
+    3. L9，为单元格增加了一些内边距
+2. 为标题增加样式
+    ```CSS
+    caption{
+        font-style: italic;
+        padding-top: 8px;
+    }
+    ```
+    仅仅是修改了字体样式和增加了一些上内边距
+3. 下图是增加样式后的表格![table with CSS](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/table%20with%20CSS.png)
+    如果觉得表格内的双虚线很难看，只需要在table规则里增加一条`border-spacing: 0px;`即可，你也可以使用折叠边框属性`border-collapse: collapse`，这会让浏览器忽略表格上设置的所有边框间距。另外还会把紧挨着的两个边框合并为一个，这样两个边框就会“折叠”为一个边框
+4. **使用伪类来使表格颜色更丰富**
+    1. 什么是伪类
+        >举个例子，:visited、:link、：hover都是伪类。如果一个链接被访问过，它会被浏览器丢进:visited类中，如果悬停，则是:hover。**这些就好像是类一样，浏览器会在后台自动的向这些类中增加或者删除元素，但是从来没有人在HTML中真正输入这些伪类。**
+    2. 在这里我们将会用到的伪类：nth-child。我们使用它，来为某些可以统一选择的元素增加颜色
+        ```CSS{.line-numbers}
+        tr:nth-child(even) {
+            background-color: red;
+        }
+        tr:nth-child(odd) {
+            background-color: green;
+        }
+        tr:nth-child(2n) {
+            background-color: red;
+        }
+        tr:nth-child(2n+1) {
+            background-color: green;
+        }
+        ```
+        * L1-3，L7-9，给偶数行加红色背景
+        * L4-6，L10-12，给奇数行加绿色背景
