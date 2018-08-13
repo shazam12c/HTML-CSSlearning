@@ -501,18 +501,39 @@ nav ul li.selected {
 4. HTML表格和CSS表格显示有什么关系？
     >HTML表格允许你使用HTML标记指定表格的结构，而CSS表格显示则提供了一种方法，可以用一种类似表格的表现形式显示块元素
 5. 给表格增加一个标题
-    1. 先给出示例代码
-        ```HTML
-        <table>
-            <captioh>
-            The Cities I visited on my Segway'n USA travels
-            </caption>
-            ·
-            ·
-            ·
-        </table>
-        ```
-        标题会在表格上方显示，之后也可以用CSS调整样式，但是一些版本较老的浏览器不能完全支持标题位置的调整
+    先给出示例代码
+    ```HTML
+    <table>
+        <caption>
+        The Cities I visited on my Segway'n USA travels
+        </caption>
+        ·
+        ·
+        ·
+    </table>
+    ```
+    标题会在表格上方显示，之后也可以用CSS调整样式，但是一些版本较老的浏览器不能完全支持标题位置的调整
+6. 表格的合并行操作
+    这里，先给出效果图:
+    ![span two rows](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/span%20two%20rows.png)
+    箭头所指的三个单元格，就是合并了两行的单元格了。对于这种情况，我们需要使用rowspan属性。下面直接来看一段代码，这比我叙述更容易理解
+    ```HTML
+    <tr>
+        <td rowspam="2">Truth or Consequences, NM</td><!--这里我们使用rowspan属性，声明了这个单元格跨两行-->
+        <td class="center">August 9th</td>
+        <td class="center">93</td>
+        <td rowspan="2" class="right">4,242 ft</td>
+        <td rowspan="2" class+"right">7,289</td>
+        <td class="center">5/5</td>
+    </tr>
+    <tr><!--第二列中，只指定我们需要的列-->
+        <!--由于rowspan设置为2，所以不再需要城市-->
+        <td class="center">August 27th</td>
+        <td class="center">98</td>
+        <!--同理，我们也不再需要海拔和人口-->
+        <td class="center">4/5</td>
+    </tr>
+    ```
 
 ### 为表格增加样式
 1. 为表格增加样式
@@ -561,3 +582,289 @@ nav ul li.selected {
         ```
         * L1-3，L7-9，给偶数行加红色背景
         * L4-6，L10-12，给奇数行加绿色背景
+
+### 附：为列表增加一些样式：自定义列表标记
+1. Disc是默认的列表标记类型
+    ```CSS
+    li {
+        list-style-type: disc;
+    }
+    ```
+2. circle提供一个简单的圆形标记
+    ```CSS
+    li {
+        list-style-type: circle;
+    }
+    ```
+3. square提供了一个方块标记
+    ```CSS
+    li {
+        list-style-type: square;
+    }
+    ```
+4. none删除所有列表标记
+    ```CSS
+    li {
+        list-style-type: none;
+    }
+    ```
+5. 使用定制标记
+    ```CSS
+    li {
+        list-style-image: url(images/style.png);
+    }
+    ```
+
+## HTML表单
+先来看看表单是如何工作的：
+>1. 浏览器加载表单页面
+>2. 用户输入数据并递交表单
+>3. 服务器相应并且把数据交给服务器脚本处理
+
+### 创建表单以及表单元素
+1. 创建表单
+    1. 示例代码如下
+        ```HTML
+        <form action="http://starbuzz.com/coffee.php" method="post">
+            <p>Just type your name here and then click Submit <br>
+            First name: <input type:"text" name="firstname" value=""> <br>
+            Last name: <input type:"text" name="lastname" value=""> <br>
+        <input type="Submit">
+        </p>
+        </form>
+        ```
+    2. form是如何工作的
+        1. action是存放服务器脚本的URL
+        2. method确定表单数据如何发送到服务器，主要由两种方法：post和get
+            1. post：使用post时，所有表单数据会作为请求的一部分发送，用户不可见，当表单数据含有类似银行账户等比较私人的信息时，推荐使用post。当你的表单中含有一个\<textarea>（这是什么我们稍后会介绍），推荐你使用post，因为这个表单元素会发送大量数据
+            2. get：使用get时，表单数据会追加到URL本身，所有用户可以看到表单数据。如果你希望用户能够对提交表单后的结果页面添加书签等操作，那你可以使用get。如果你有一个处理订单的服务器脚本，可能不希望用户对这个页面添加标签，否则每次用户打开这个页面时，都会重新递交这个表单。但是如果你有一个服务器脚本，它返回一个搜索结果列表，那么应该使用get，因为应该会有用户希望对这个页面添加书签
+2. 表单元素
+    * 文本输入
+        `text <input>`元素用于输入一行文本。你还可以为这个控件设置最大字符个数和宽度
+        ![text input](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/text%20input.png)
+        ```HTML
+        <input type="text" name="fullname">
+        ```
+        1. 使用type属性指示你希望得到一个文本属性的输入
+        2. 使用name指定一个名字，这个名字将会交给服务器脚本进行进一步使用
+        3. 使用maaxlength属性，限制最大字符长度。例：`maxlength="100"`
+    * 递交输入
+        `submit <input>`元素会创建一个按钮，允许用户递交表单。点击时，浏览器会把表单发送给服务器脚本进行处理
+        ![submit input](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/submit%20input.png)
+        ```HTML
+        <input type="submit" value="Submit">
+        ```
+        1. 递交按钮需要指定"submit"作为type的值
+        2. **value的值将会控制按钮上显示的文字**，这是一个可选属性，它有一个默认值"Submit"
+    * 单选按钮输入
+        `radio <input>`元素会创建一个包含多按钮的控件，但是一次只能选择其中一个按钮
+        ```HTML
+        <p>
+        <input type="radio" name="hotornot" value="hot">HOT<br>
+        <input type="radio" name="hotornot" value="not">NOT<br>
+        </p>
+        ```
+        1. 使用radio属性来表示你要构建一个单选按钮
+        2. 一组单选按钮将会使用同一个name
+        3. value是每个按钮的值
+        4. radio元素的名字都是相同的，因为我们需要让浏览器知道这些单选按钮属于同一组
+        5. \<br>只是一个换行符
+        6. 我们习惯把按钮的标签放在元素右边
+    * 复选按钮输入
+        `checkbox <input>`元素也会创建一个包含多按钮的控件，只不过是多选
+        ```HTML
+        <p>
+        <input type="checkbox" name="hotornotorgot" value="hot" checked>HOT<br>
+        <input type="checkbox" name="hotornotorgot" value="not">NOT<br>
+        <input type="checkbox" name="hotornotorgot" value="got">GOT<br>
+        </p>
+        ```
+        1. 在递交表单时，浏览器会把所以的复选按钮值联通复选按钮名发送到服务器脚本。比如在这里，假设我们选择了hot、not和got，那么浏览器会向服务器发送`"hotornotorgot=hot&not&got"`
+        2. 在这个复选框内，第一个checkbox元素中有一个布尔属性：checked，它表示该项时默认选中的
+    * 文本区
+        `<textarea>`元素会创建一个多行的文本区，可以在其中输入多行文本
+        ![textarea](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/textarea.png)
+        ```HTML
+        <textarea name="comments" rows="10" cols="48"></textarea>
+        ```
+        1. \<textare>元素不是一个空元素，它有开始和结束标记
+        2. rows属性告诉浏览器，这个文本区的高度是多少个**字符**
+        3. cols属性告诉浏览器，这个文本区的宽度是多少个**字符**
+        4. 你也可以使用CSS来指定文本区的大小
+        5. **开始和结束标记之间的文本会成为浏览器文本区控件内的初始文本**
+    * select & option
+        通过将这两个元素结合，可以创建一个菜单控件。菜单提供了从一组选项里选出一个的方法，见图:
+        ![menu](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/menu.png)
+        ```HTML
+        <selecxt name="characters">
+            <option value="Buckaroo">Bukaroo Banzai</option>
+            <option value="Tommy">Perfect Tommy</option>
+            <option value="Penny">Penny Priddy</option>
+            <option value="Jersey">New Jersey</option>
+            <option value="John">John Parker</option>
+        </select>
+        ```
+        1. select包含所有菜单选项，把他们组成一个菜单。和其他的表单元素一样，要使用name属性为select指定一个唯一的名字
+        2. \<option>元素的内容是菜单项的描述，每个菜单选项还可以包含一个表示这个菜单项的值
+        3. \<option>元素没有name属性，因为他们时菜单的一部分，而菜单由\<select>创建，所以我们只需要给整个菜单提供一个名字，而这已经在\<select>元素中指定了。递交表单时，只会把当前选择项的值连同这个名字交给服务器脚本处理
+    * 数字输入
+        `number <input>`元素会限制只能输入数字，并且可以用相关属性限制最大值和最小值
+        ![number input](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/number%20input.png)
+        ```HTML
+        <input type="number" min="0" max="20">
+        ```
+        如果你输入的值超过这个范围，会得到一个错误消息
+        ![error message](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/error%20message.png)
+    * 范围输入
+        `range <input>`元素类似于number，但是它会显示一个滑动条而不是输入框
+        ![range input](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/range%20input.png)
+        ```HTML
+        <input type="range" min="0" max="20" step="5">
+        ```
+        无论是number元素还是range元素，都可以使用step来指定一个步长
+    * 颜色输入
+        `color <input>`元素可以指定一个颜色，单击这个控件是会弹出一个颜色选择器(如果浏览器不支持这个控件，则用户会得到一个常规的文本输入控件)
+        ![color input](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/color%20input.png)
+        ```HTML
+        <input type="color">
+        ```
+    * 日期输入
+        `data <input>`元素可以指定一个日期，单击这个控件时会弹出一个日历。这个控件在选择完之后会创建一个合法的日期格式串发送到服务器脚本。(如果浏览器不支持这个控件，则用户会得到一个常规的文本输入控件)
+        ![date input](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/date%20input.png)
+    * email、tel、url输入
+        `email <input>`、`tel <inpout>`、`url <input>`元素都是`text <input>`的变种，而且他们的特性在**移动设备浏览器**上才可以体现，当使用他们时，移动设备浏览器会**分别调出适合输入email或者电话号码或者url的定制键盘**
+
+### 实现表格显示布局
+1. 表单通常采用表格布局，CSS表格显示布局对于显示这个表单非常合适，我们先来看将表单元素放入HTML结构中实现表格显示布局
+    ```HTML{.line-numbers}
+    <form action="http://starbuzzcoffee.com/processorder.php" method="post">
+
+    <div class="tableRow"><!--使用一个类为tableRow的<div>来表示表格中的隔行-->
+    <p>
+    Choose your beans:
+    </p>
+
+    <p>
+    <select name="beans">
+    <option value="House Blend">House Blend</option>
+    <option value="Bolivia">Shade Grown Bolivia Supremo</option>
+    <option value="Guatemala">Organic Guatemala</option>
+    <option value="Kenya">Kenya</option>
+    </select>
+    </p><!--选择菜单，我们把对应的所有元素放在一个单元格中-->
+
+    </div>
+
+    <div class="tableRow">
+    <p> Type: </p><!--每个单元格的内容嵌套在一个单元格中-->
+
+    <p>
+    <input type="radio" name="beantype" value="whole"> Whole bean<br>
+    <input type="radio" name="beantype" value="ground" checked> Ground
+    </p><!--对于单选按钮，我们把对应的所有元素放在一个单元格中-->
+
+    </div>
+
+    <div class="tableRow">
+    <p> Number of bags: </p>
+    <p> <input type="number" name="bags" min="1" max="10"> </p>
+    </div>
+
+    <div class="tableRow label">
+    <p> Must arrive by date: </p>
+    <p> <input type="date" name="date"> </p>
+    </div>
+
+    <div class="tableRow">
+    <p> Extras: </p>
+
+    <p>
+    <input type="checkbox" name="extras[]" value="giftwrap"> Gift wrap<br>
+    <input type="checkbox" name="extras[]" value="catalog" checked>
+    Include catalog with order
+    </p><!--对于多选按钮，我们把对应的所有元素放在一个单元格中-->
+
+    </div>
+
+    <div class="tableRow">
+    <p class="heading"> Ship to </p><!--对于只包含标签"ship to"的行，我们为他单独设定了一个类方便通过CSS对它字体加粗-->
+    <p></p><!--注意，这里还有一个空单元格，所以在这里直接放一个空的<p>元素-->
+    </div>
+
+    <div class="tableRow">
+    <p> Name: </p>
+    <p> <input type="text" name="name" value=""> </p>
+    </div>
+
+    <div class="tableRow">
+    <p> Address: </p>
+    <p> <input type="text" name="address" value=""> </p>
+    </div>
+
+    <div class="tableRow">
+    <p> City: </p>
+    <p> <input type="text" name="city" value=""> </p>
+    </div>
+
+    <div class="tableRow">
+    <p> State: </p>
+    <p> <input type="text" name="state" value=""> </p>
+    </div>
+
+    <div class="tableRow">
+    <p> Zip: </p>
+    <p> <input type="text" name="zip" value=""> </p>
+    </div>
+
+    <div class="tableRow">
+    <p> Phone: </p>
+    <p> <input type="tel" name="phone" value=""> </p>
+    </div>
+
+    <div class="tableRow">
+    <p> Customer Comments: </p>
+    <p>
+    <textarea name="comments" rows="10" cols="48"></textarea>
+    </p>
+    </div>
+
+    <div class="tableRow">
+    <p></p>
+    <p> <input type="submit" value="Order Now"> </p>
+    </div>
+
+    </form>
+    ```
+2. 用CSS建立表单样式
+    ```CSS
+    body {
+        background: #efe5d0 url(images/background.gif) top left;
+        margin: 20px;
+    }
+    form {
+        display: table;
+        padding: 10px;
+        border: thin dotted #7e7e7e;
+        background-color: #e1ceb8;
+    }/*在表单周围增加一个边框，在内容和边框之间增加了一些内边距，还增加了一个背景颜色*/
+    form textarea {
+        width: 500px;
+        height: 200px;
+    }/*增加表单中的textarea控件*/
+    div.tableRow {
+        display: table-row;
+    }
+    div.tableRow p {
+        display: table-cell;
+        vertical-align: top;
+        padding: 3px;
+    }/*对每个tableRow中的<p>元素设定垂直对齐，这里还增加了内边距，来增加行之间的间距*/
+    div.tableRow p:first-child {
+        text-align: right;
+    }/*使用了first-child伪类，表示各行的第一个<p>要右对齐*/
+    p.heading {
+        font-weight: bold;
+    }/*对heading类的<p>设置粗体*/
+    ```
+3. 成品表单页
+    ![ready](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/ready.png)
