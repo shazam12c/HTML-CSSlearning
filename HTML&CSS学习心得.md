@@ -583,7 +583,7 @@ nav ul li.selected {
         * L1-3，L7-9，给偶数行加红色背景
         * L4-6，L10-12，给奇数行加绿色背景
 
-### 附：为列表增加一些样式：自定义列表标记
+### 附：为列表增加一些样式之自定义列表标记
 1. Disc是默认的列表标记类型
     ```CSS
     li {
@@ -648,6 +648,11 @@ nav ul li.selected {
         1. 使用type属性指示你希望得到一个文本属性的输入
         2. 使用name指定一个名字，这个名字将会交给服务器脚本进行进一步使用
         3. 使用maaxlength属性，限制最大字符长度。例：`maxlength="100"`
+        4. **对于大多数\<input>控件都可以使用placeholder属性，会把它的值在控件中显示为一个颜色较浅的提示内容，而当用户单击这个文本域，提示作用的占位符就会消失，它不会和你要输入的内容混杂在一起**
+            ```HTML
+            <input type="text" placeholder="Buckaroo Banzai">
+            ```
+            ![placeholder](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/placeholder.png)
     * 递交输入
         `submit <input>`元素会创建一个按钮，允许用户递交表单。点击时，浏览器会把表单发送给服务器脚本进行处理
         ![submit input](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/submit%20input.png)
@@ -704,9 +709,10 @@ nav ul li.selected {
             <option value="John">John Parker</option>
         </select>
         ```
-        1. select包含所有菜单选项，把他们组成一个菜单。和其他的表单元素一样，要使用name属性为select指定一个唯一的名字
+        1. \<select>包含所有菜单选项，把他们组成一个菜单。和其他的表单元素一样，要使用name属性为select指定一个唯一的名字
         2. \<option>元素的内容是菜单项的描述，每个菜单选项还可以包含一个表示这个菜单项的值
         3. \<option>元素没有name属性，因为他们时菜单的一部分，而菜单由\<select>创建，所以我们只需要给整个菜单提供一个名字，而这已经在\<select>元素中指定了。递交表单时，只会把当前选择项的值连同这个名字交给服务器脚本处理
+        4. 如果为\<select>元素增加一个布尔属性multiple，就会把单选菜单变成可以多选的菜单。同时，不再显示一个下拉菜单，在屏幕上显示所有选项，通过按下ctrl或者command选择多项
     * 数字输入
         `number <input>`元素会限制只能输入数字，并且可以用相关属性限制最大值和最小值
         ![number input](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/number%20input.png)
@@ -731,8 +737,48 @@ nav ul li.selected {
     * 日期输入
         `data <input>`元素可以指定一个日期，单击这个控件时会弹出一个日历。这个控件在选择完之后会创建一个合法的日期格式串发送到服务器脚本。(如果浏览器不支持这个控件，则用户会得到一个常规的文本输入控件)
         ![date input](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/date%20input.png)
+        ```HTML
+        <input type="date">
+        ```
     * email、tel、url输入
         `email <input>`、`tel <inpout>`、`url <input>`元素都是`text <input>`的变种，而且他们的特性在**移动设备浏览器**上才可以体现，当使用他们时，移动设备浏览器会**分别调出适合输入email或者电话号码或者url的定制键盘**
+        ```HTML
+        <input type="email">
+        <input type="tel">
+        <input type="url">
+        ```
+    * fieldset和legend
+        这两个控件从视觉上对元素分组
+        ![fieldset&legend](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/field%26legend.png)
+        ```HTML
+        <fieldset>
+        <legend>Condiments</legend>
+        <input type="checkbox" name="spice" value="salt">
+        Salt <br>
+        <input type="checkbox" name="spice" value="pepper">
+        Pepper <br>
+        <input type="checkbox" name="spice" value="garlic">
+        Garlic
+        </fieldset>
+        ```
+    * password
+        这个控件会对用户输入字符加掩码
+        ![password](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/password.png)
+        ```HTML
+        <input type="password" name="secret">
+        ```
+    * 文件输入
+        创建一个文件选择控件，允许用户选择一个文件，并在表单递交时随其他表单数据一起发送给服务器。**使用这个控件的前提是必须使用POST方法**
+        ![file input](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/file%20input.png)
+        ```HTML
+        <input type="file" name="doc">
+        ```
+    * required
+        这其实是一个布尔属性，它可以用于任何表单控件，指示一个域是必要的。所以，对于设置了这个属性的控件，如果没有为这个控件指定一个值，是无法递交表单的
+        ![required](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/required.png)
+        ```HTML
+        <input type="text" placeholder="Buckaroo Banzai" required>
+        ```
 
 ### 实现表格显示布局
 1. 表单通常采用表格布局，CSS表格显示布局对于显示这个表单非常合适，我们先来看将表单元素放入HTML结构中实现表格显示布局
@@ -868,3 +914,5 @@ nav ul li.selected {
     ```
 3. 成品表单页
     ![ready](https://raw.githubusercontent.com/shazam12c/HTML-CSSlearning/master/ready.png)
+
+# 完结
